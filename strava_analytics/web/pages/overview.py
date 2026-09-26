@@ -610,18 +610,21 @@ def layout(**_kwargs):
                     f"{total_runs} runs at {avg_pace} avg pace. "
                     "Pace trends, heart rate analysis, and estimated race fitness.",
                     link_text="Learn more", link_href="/running",
+                    link_class="numbered-card__link auth-only",
                 ),
                 numbered_card(
                     2, "Strength",
                     f"{total_lifts} sessions logged. "
                     f"Bench {bench_1rm} / Squat {squat_1rm} / Deadlift {dl_1rm}.",
                     link_text="Learn more", link_href="/lifting",
+                    link_class="numbered-card__link auth-only",
                 ),
                 numbered_card(
                     3, "Racing",
                     f"VDOT {vdot:.1f}. Rolling 8-week build cycle: peak fitness "
                     "around the perpetual time-trial week.",
                     link_text="Learn more", link_href="/running",
+                    link_class="numbered-card__link auth-only",
                 ),
             ]),
         ]),
