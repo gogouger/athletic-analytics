@@ -2,7 +2,7 @@
 
 Self-hosted **hybrid training dashboard** for athletes who run *and* lift. Brings endurance work (rides, runs, FIT files) and strength training into one view, so you can see how the two halves of your program are actually talking to each other — without splitting your data across an endurance silo (Strava) and a lifting silo (Hevy, Strong) and a sleep silo and a nutrition silo.
 
-Live public preview at <https://meron.gordongouger.com> (Overview tab; deeper tabs are gated by SSO).
+Live public preview at <https://athletic-analytics.gordongouger.com> (Overview tab; deeper tabs are gated by SSO).
 
 ## What it does
 
