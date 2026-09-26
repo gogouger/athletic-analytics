@@ -103,6 +103,7 @@ def create_app() -> dash.Dash:
             dbc.themes.FLATLY,
             "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap",
             "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+            "https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css",
         ],
         external_scripts=[
             "https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js",
@@ -110,6 +111,8 @@ def create_app() -> dash.Dash:
             "https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js",
             "https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js",
             "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+            "https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js",
+            "https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js",
         ],
         suppress_callback_exceptions=True,
         title="Athletic Analytics",
