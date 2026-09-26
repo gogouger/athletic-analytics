@@ -615,6 +615,23 @@ main {
     display: block;
     margin-bottom: 12px;
 }
+.footer-brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.footer-brand-icon {
+    width: 34px;
+    height: 34px;
+}
+.footer-brand-name {
+    color: var(--foreground);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
 /* Dark mode: the horizontal SVG has navy text; invert to light + color-preserving hue flip */
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .footer-logo {
@@ -623,6 +640,9 @@ main {
 }
 :root[data-theme="dark"] .footer-logo {
     filter: none;
+}
+:root[data-theme="dark"] .footer-brand-icon {
+    content: url("/assets/meron-logo-outline.svg");
 }
 
 .footer-tagline {
@@ -1816,7 +1836,7 @@ details[id^="activity-card-"]::after,
 
     /* MERON header stamp at the very top of printed output */
     body::before {
-        content: "MERON";
+        content: "ATHLETIC ANALYTICS";
         display: block;
         font-family: var(--font-mono);
         font-size: 10pt;

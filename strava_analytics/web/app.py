@@ -28,8 +28,8 @@ from strava_analytics.web import data
 # (relative /assets paths work fine locally); set MERON_SITE_URL=https://... when
 # the site is publicly deployed so social scrapers can resolve the share image.
 SITE_URL = os.environ.get("MERON_SITE_URL", "").rstrip("/")
-OG_IMAGE = (f"{SITE_URL}/assets/meron-logo-dark-bg.png"
-            if SITE_URL else "/assets/meron-logo-dark-bg.png")
+OG_IMAGE = (f"{SITE_URL}/assets/meron-app-icon.png"
+            if SITE_URL else "/assets/meron-app-icon.png")
 
 
 MERON_INDEX_TEMPLATE = """<!DOCTYPE html>
@@ -37,7 +37,7 @@ MERON_INDEX_TEMPLATE = """<!DOCTYPE html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-        <meta name="description" content="MERON \u2014 personal fitness intelligence. Strength. Endurance. Elevation.">
+        <meta name="description" content="Athletic Analytics \u2014 personal fitness intelligence across strength and endurance.">
 
         <!-- Favicons -->
         <link rel="icon" type="image/svg+xml" href="/assets/meron-icon.svg">
@@ -51,9 +51,9 @@ MERON_INDEX_TEMPLATE = """<!DOCTYPE html>
         <!-- Standalone iOS / Android web-app -->
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta name="apple-mobile-web-app-title" content="MERON">
+        <meta name="apple-mobile-web-app-title" content="Athletic Analytics">
         <meta name="mobile-web-app-capable" content="yes">
-        <meta name="application-name" content="MERON">
+        <meta name="application-name" content="Athletic Analytics">
 
         <!-- Theme color (mobile browser chrome) -->
         <meta name="theme-color" content="#f8f9fc" media="(prefers-color-scheme: light)">
@@ -64,15 +64,15 @@ MERON_INDEX_TEMPLATE = """<!DOCTYPE html>
 
         <!-- OpenGraph -->
         <meta property="og:type" content="website">
-        <meta property="og:site_name" content="MERON">
-        <meta property="og:title" content="MERON">
+        <meta property="og:site_name" content="Athletic Analytics">
+        <meta property="og:title" content="Athletic Analytics">
         <meta property="og:description" content="Personal fitness intelligence. Strength. Endurance. Elevation.">
         <meta property="og:image" content="__OG_IMAGE__">
         __OG_URL__
 
         <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="MERON">
+        <meta name="twitter:title" content="Athletic Analytics">
         <meta name="twitter:description" content="Personal fitness intelligence. Strength. Endurance. Elevation.">
         <meta name="twitter:image" content="__OG_IMAGE__">
 
@@ -112,7 +112,7 @@ def create_app() -> dash.Dash:
             "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
         ],
         suppress_callback_exceptions=True,
-        title="MERON",
+        title="Athletic Analytics",
         update_title=None,
     )
 
@@ -141,8 +141,8 @@ def create_app() -> dash.Dash:
             html.Div([
                 # Brand
                 dcc.Link([
-                    html.Img(src="/assets/meron-icon.svg", className="brand-icon", alt="MERON"),
-                    html.Span("MERON", className="brand-text"),
+                    html.Img(src="/assets/meron-icon.svg", className="brand-icon", alt=""),
+                    html.Span("Athletic Analytics", className="brand-text"),
                 ], href="/", className="brand-link"),
                 # Mobile hamburger toggle
                 html.Button(
@@ -317,7 +317,7 @@ def create_app() -> dash.Dash:
                 "/settings": "Settings"
             };
             var page = titles[pathname] || "Overview";
-            document.title = "MERON \u2014 " + page;
+            document.title = "Athletic Analytics \u2014 " + page;
             return "";
         }
         """,
@@ -424,7 +424,7 @@ def main() -> None:
         format="%(asctime)s %(name)s %(levelname)s %(message)s",
         datefmt="%H:%M:%S",
     )
-    parser = argparse.ArgumentParser(description="MERON Web Dashboard")
+    parser = argparse.ArgumentParser(description="Athletic Analytics Web Dashboard")
     parser.add_argument(
         "export_dir",
         nargs="?",

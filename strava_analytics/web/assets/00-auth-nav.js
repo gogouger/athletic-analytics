@@ -101,7 +101,7 @@
             '<div class="meron-login-card" role="dialog" aria-modal="true" aria-label="Log in">' +
                 '<button class="meron-login-x" type="button" aria-label="Close">×</button>' +
                 '<div class="meron-login-title">Sign in</div>' +
-                '<p class="meron-login-sub">One login for the site, Meron &amp; Athenaeum.</p>' +
+                '<p class="meron-login-sub">One login for the site, Athletic Analytics &amp; Library.</p>' +
                 '<form class="meron-login-form" novalidate>' +
                     '<div class="meron-login-field"><label for="mlm-user">Username</label>' +
                         '<input id="mlm-user" name="username" autocomplete="username" autocapitalize="off" spellcheck="false" required></div>' +

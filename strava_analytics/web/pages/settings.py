@@ -149,7 +149,7 @@ def _pair_card_body(code: str | None, api_base: str | None) -> list:
     """Render the pair-card body depending on whether a code is live."""
     if not code:
         return [
-            html.P("Scan a one-time QR from your phone to sign the MERON app in. "
+            html.P("Scan a one-time QR from your phone to sign the Athletic Analytics app in. "
                    "Codes expire after 10 minutes and are single-use.",
                    style={"color": TEXT_SECONDARY, "fontSize": "13px",
                           "margin": "0 0 10px 0"}),
@@ -348,7 +348,7 @@ def _data_sources_section() -> html.Div:
         ])
     else:
         strava_body = html.Div([
-            html.P("Authorize MERON to pull activities directly from Strava.",
+            html.P("Authorize Athletic Analytics to pull activities directly from Strava.",
                    style={"color": TEXT_SECONDARY, "fontSize": "13px",
                           "margin": "0 0 10px 0"}),
             html.A("Connect Strava",
@@ -503,7 +503,7 @@ def layout(**_kwargs):
 
         page_section("ABOUT", [
             html.Div([
-                html.P("MERON", style={
+                html.P("Athletic Analytics", style={
                     "fontSize": "16px", "fontWeight": "700", "color": TEXT_PRIMARY,
                 }),
                 html.P(

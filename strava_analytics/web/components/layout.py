@@ -165,8 +165,12 @@ def footer():
             html.Div([
                 # Column 1: Brand
                 html.Div([
-                    html.Img(src="/assets/meron-logo-horizontal.svg",
-                             className="footer-logo", alt="MERON"),
+                    html.Div([
+                        html.Img(src="/assets/meron-icon.svg",
+                                 className="footer-brand-icon", alt=""),
+                        html.Span("Athletic Analytics",
+                                  className="footer-brand-name"),
+                    ], className="footer-brand-lockup"),
                     html.P("Strength. Endurance. Elevation.",
                            className="footer-tagline"),
                     html.P("Denver, CO",
@@ -191,7 +195,7 @@ def footer():
                            className="footer-tagline"),
                 ]),
             ], className="footer-grid"),
-            html.Div("\u00a9 2026 MERON. All rights reserved.",
+            html.Div("\u00a9 2026 Athletic Analytics. All rights reserved.",
                      className="footer-copyright"),
         ], className="footer-inner"),
         className="site-footer",

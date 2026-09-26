@@ -582,7 +582,7 @@ def layout(**_kwargs):
     return html.Div([
         # Hero
         hero_section(
-            label="MERON \u2014 OVERVIEW",
+            label="ATHLETIC ANALYTICS \u2014 OVERVIEW",
             headline="Your body is a machine. Here's the telemetry.",
             subtext=(
                 f"{total_activities} activities. {total_miles:,.0f} miles. "
