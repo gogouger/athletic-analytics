@@ -106,10 +106,13 @@ def create_app() -> dash.Dash:
             "https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css",
         ],
         external_scripts=[
-            "https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js",
-            "https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js",
-            "https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js",
-            "https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js",
+            # Charts are a core part of the product, so their renderer is served
+            # from this app rather than relying on a visitor's CDN/privacy rules.
+            # The files in assets/vendor retain the upstream license notices.
+            "/assets/vendor/chart.umd.js",
+            "/assets/vendor/chartjs-adapter-date-fns.bundle.min.js",
+            "/assets/vendor/hammer.min.js",
+            "/assets/vendor/chartjs-plugin-zoom.min.js",
             "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
             "https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js",
             "https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js",
