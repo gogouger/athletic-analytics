@@ -250,7 +250,10 @@ def create_app() -> dash.Dash:
                     "ok": True, "activities": 0, "runs": 0,
                     "total_miles": 0, "run_miles": 0,
                     "this_week_miles": 0, "this_month_miles": 0,
-                    "longest_run_mi": 0, "weekly_miles": [], "since": None,
+                    "this_week_lift_sessions": 0,
+                    "this_month_lift_sessions": 0,
+                    "longest_run_mi": 0, "weekly_miles": [],
+                    "weekly_training": [], "since": None,
                 })
             d = df.copy()
             d["date"] = pd.to_datetime(d["date"], errors="coerce")
@@ -264,6 +267,16 @@ def create_app() -> dash.Dash:
             now = pd.Timestamp.now()
             wk = (runs.set_index("date")["_mi"].resample("W").sum()
                   if not runs.empty else pd.Series(dtype=float))
+            lift_wk = (lifts.set_index("date").resample("W").size()
+                       if not lifts.empty else pd.Series(dtype=int))
+            recent_weeks = wk.index.union(lift_wk.index).sort_values()[-16:]
+            weekly_training = [
+                {
+                    "run_miles": round(float(wk.get(week, 0)), 1),
+                    "lift_sessions": int(lift_wk.get(week, 0)),
+                }
+                for week in recent_weeks
+            ]
             end_prs = data.get_end_prs() or {}
 
             def _pr(k):
@@ -289,10 +302,17 @@ def create_app() -> dash.Dash:
                 "this_month_miles": round(float(
                     runs[runs["date"] >= now - pd.Timedelta(days=30)]["_mi"].sum()
                 ), 1),
+                "this_week_lift_sessions": int(len(
+                    lifts[lifts["date"] >= now - pd.Timedelta(days=7)]
+                )),
+                "this_month_lift_sessions": int(len(
+                    lifts[lifts["date"] >= now - pd.Timedelta(days=30)]
+                )),
                 "longest_run_mi": (round(float(runs["_mi"].max()), 1)
                                    if not runs.empty else 0),
                 "weekly_miles": [round(float(x), 1)
                                  for x in wk.tail(16).tolist()],
+                "weekly_training": weekly_training,
                 "since": int(d["date"].min().year),
                 "lift_sessions": int(len(lifts)),
                 "lift_maxes": lift_maxes,
