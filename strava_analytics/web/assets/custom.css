@@ -132,6 +132,14 @@ body {
     text-transform: uppercase;
 }
 
+.family-mark {
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    white-space: nowrap;
+}
+
 .nav-links {
     display: flex;
     align-items: center;
@@ -150,6 +158,21 @@ body {
 .meron-nav-link:hover {
     color: var(--foreground) !important;
 }
+
+.family-projects {
+    margin-left: 2px;
+    padding-left: 20px;
+    border-left: 1px solid var(--border);
+}
+
+.family-auth-action {
+    display: inline-block;
+    padding: 6px 9px;
+    border: 1px solid var(--border);
+    color: var(--foreground) !important;
+    text-decoration: none !important;
+}
+.family-auth-action:hover { border-color: var(--accent); color: var(--accent) !important; }
 
 main {
     padding-top: 56px;

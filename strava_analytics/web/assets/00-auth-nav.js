@@ -39,12 +39,12 @@
             slot.innerHTML =
                 '<span style="opacity:0.6">' + escapeHTML(name) + '</span>' +
                 '  <a href="#" data-meron-logout ' +
-                'style="color:inherit;text-decoration:underline;">logout</a>';
+                'class="family-auth-action">Sign out</a>';
             if (gear) gear.style.display = "";
         } else {
             slot.innerHTML =
                 '<a href="#" data-meron-login ' +
-                'style="color:inherit;">log in</a>';
+                'class="family-auth-action">Owner sign in</a>';
             if (gear) gear.style.display = "none";
         }
     }

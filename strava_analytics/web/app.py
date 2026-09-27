@@ -145,6 +145,7 @@ def create_app() -> dash.Dash:
                 # Brand
                 dcc.Link([
                     html.Img(src="/assets/meron-icon.svg", className="brand-icon", alt=""),
+                    html.Span("GG /", className="family-mark"),
                     html.Span("Athletic Analytics", className="brand-text"),
                 ], href="/", className="brand-link"),
                 # Mobile hamburger toggle
@@ -167,6 +168,8 @@ def create_app() -> dash.Dash:
                              className="meron-nav-link protected"),
                     dcc.Link("Plan", href="/plan",
                              className="meron-nav-link protected"),
+                    html.A("All projects", href="https://gordongouger.com/projects.html",
+                           className="meron-nav-link family-projects"),
                     # Gear is hidden by default; 00-auth-nav.js reveals it
                     # once auth state confirms a logged-in user.
                     dcc.Link("\u2699", href="/settings",
