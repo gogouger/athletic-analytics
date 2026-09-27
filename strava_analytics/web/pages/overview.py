@@ -596,7 +596,7 @@ def layout(**_kwargs):
                 dcc.Link("View Plan", href="/plan",
                          className="btn-ghost auth-only"),
                 # Anon prompt \u2014 visible only when not logged in.
-                html.A("Log in to view \u2192", href="/login",
+                html.A("Owner sign in \u2192", href="/login",
                        id="overview-cta-login",
                        className="btn-accent anon-only"),
             ],
@@ -684,7 +684,7 @@ def layout(**_kwargs):
         html.Div(cta_section(
             "Ready to dig deeper?",
             "Sign in to see runs, lifts, plan, and race fitness.",
-            "Log in \u2192", "/login",
+            "Owner sign in \u2192", "/login",
         ), className="anon-only"),
 
         # Footer

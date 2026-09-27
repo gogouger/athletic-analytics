@@ -192,7 +192,7 @@ def footer():
                              className="footer-link auth-only"),
                     dcc.Link("Settings", href="/settings",
                              className="footer-link auth-only"),
-                    html.A("Log in", href="#", className="footer-link anon-only",
+                    html.A("Owner sign in", href="#", className="footer-link anon-only",
                            **{"data-meron-login": "true"}),
                 ]),
                 # Column 3: Built with
