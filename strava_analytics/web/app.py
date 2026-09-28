@@ -101,7 +101,7 @@ def create_app() -> dash.Dash:
         pages_folder=str(Path(__file__).parent / "pages"),
         # Vendor files are explicitly ordered in external_scripts below. Keep
         # Dash from injecting a second copy alphabetically after our bridge.
-        assets_ignore=r"vendor/.*",
+        assets_path_ignore=[r"^vendor$"],
         external_stylesheets=[
             dbc.themes.FLATLY,
             "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap",
