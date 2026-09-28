@@ -541,10 +541,28 @@
     function processElement(el) {
         var raw = el.getAttribute("data-chartcfg");
         if (!raw) return;
-        if (el.getAttribute("data-rendered")) return;
         if (typeof Chart === "undefined") return; // Chart.js not loaded yet — retry later
 
         var chartId = el.id.replace(/-wrap$/, "");
+        var existing = _charts[chartId];
+        var box = el.querySelector(".cjs-canvas-box");
+
+        // Dash can replace the empty chart child while retaining this wrapper
+        // and its data-rendered attribute. In that state Chart.js still has an
+        // instance for a detached canvas, but the visitor sees a blank panel.
+        // Treat the marker as valid only when its canvas still belongs to the
+        // current chart box; otherwise rebuild from the same server-provided
+        // configuration.
+        if (el.getAttribute("data-rendered") && existing && box &&
+            existing.canvas && existing.canvas.isConnected &&
+            box.contains(existing.canvas)) {
+            return;
+        }
+        if (existing) {
+            existing.destroy();
+            delete _charts[chartId];
+        }
+        el.removeAttribute("data-rendered");
         try {
             var cfg = JSON.parse(raw);
             var ok = renderChart(chartId, cfg);
@@ -557,7 +575,9 @@
     }
 
     function scanAll() {
-        var els = document.querySelectorAll("[data-chartcfg]:not([data-rendered])");
+        // Inspect rendered wrappers too. The render marker alone is not proof
+        // that Dash did not replace the canvas after the last scan.
+        var els = document.querySelectorAll("[data-chartcfg]");
         for (var i = 0; i < els.length; i++) processElement(els[i]);
     }
 
