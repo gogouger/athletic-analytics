@@ -98,7 +98,8 @@ def feature_grid(children, columns=3):
 
 
 def numbered_card(number, title, description="", value=None, subtitle="",
-                  color=ACCENT, link_text=None, link_href=None, children=None):
+                  color=ACCENT, link_text=None, link_href=None,
+                  link_class="numbered-card__link", children=None):
     """MERON '01 / Edge Intelligence' capability card."""
     card_children = [
         html.Div(f"{number:02d}", className="numbered-card__number"),
@@ -127,7 +128,7 @@ def numbered_card(number, title, description="", value=None, subtitle="",
             dcc.Link([
                 link_text,
                 html.Span(" \u2192"),
-            ], href=link_href, className="numbered-card__link")
+            ], href=link_href, className=link_class)
         )
 
     return html.Div(card_children, className="numbered-card")
@@ -165,8 +166,12 @@ def footer():
             html.Div([
                 # Column 1: Brand
                 html.Div([
-                    html.Img(src="/assets/meron-logo-horizontal.svg",
-                             className="footer-logo", alt="MERON"),
+                    html.Div([
+                        html.Img(src="/assets/meron-icon.svg",
+                                 className="footer-brand-icon", alt=""),
+                        html.Span("Athletic Analytics",
+                                  className="footer-brand-name"),
+                    ], className="footer-brand-lockup"),
                     html.P("Strength. Endurance. Elevation.",
                            className="footer-tagline"),
                     html.P("Denver, CO",
@@ -177,11 +182,18 @@ def footer():
                 html.Div([
                     html.Div("Navigation", className="footer-heading"),
                     dcc.Link("Overview", href="/", className="footer-link"),
-                    dcc.Link("Running", href="/running", className="footer-link"),
-                    dcc.Link("Lifting", href="/lifting", className="footer-link"),
-                    dcc.Link("Activities", href="/activities", className="footer-link"),
-                    dcc.Link("Plan", href="/plan", className="footer-link"),
-                    dcc.Link("Settings", href="/settings", className="footer-link"),
+                    dcc.Link("Running", href="/running",
+                             className="footer-link auth-only"),
+                    dcc.Link("Lifting", href="/lifting",
+                             className="footer-link auth-only"),
+                    dcc.Link("Activities", href="/activities",
+                             className="footer-link auth-only"),
+                    dcc.Link("Plan", href="/plan",
+                             className="footer-link auth-only"),
+                    dcc.Link("Settings", href="/settings",
+                             className="footer-link auth-only"),
+                    html.A("Owner sign in", href="#", className="footer-link anon-only",
+                           **{"data-meron-login": "true"}),
                 ]),
                 # Column 3: Built with
                 html.Div([
@@ -191,7 +203,7 @@ def footer():
                            className="footer-tagline"),
                 ]),
             ], className="footer-grid"),
-            html.Div("\u00a9 2026 MERON. All rights reserved.",
+            html.Div("\u00a9 2026 Athletic Analytics. All rights reserved.",
                      className="footer-copyright"),
         ], className="footer-inner"),
         className="site-footer",

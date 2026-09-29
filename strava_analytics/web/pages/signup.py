@@ -44,7 +44,7 @@ def layout(**kwargs):
     return html.Div([
         html.Div([
             html.Div([
-                html.Img(src="/assets/meron-icon.svg", alt="MERON",
+                html.Img(src="/assets/meron-icon.svg", alt="Athletic Analytics",
                          style={"width": "40px", "height": "40px",
                                 "marginBottom": "16px", "opacity": "0.9"}),
                 html.H1("Sign up", style={

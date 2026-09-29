@@ -1,6 +1,6 @@
 openapi: "3.1.0"
 info:
-  title: MERON API
+  title: Athletic Analytics API
   description: >
     Personal training data API. Provides fitness metrics, activity CRUD,
     training plans, race predictions, and Strava sync. All distances in

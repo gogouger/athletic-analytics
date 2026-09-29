@@ -1,8 +1,8 @@
-# Meron
+# Athletic Analytics
 
 Self-hosted **hybrid training dashboard** for athletes who run *and* lift. Brings endurance work (rides, runs, FIT files) and strength training into one view, so you can see how the two halves of your program are actually talking to each other — without splitting your data across an endurance silo (Strava) and a lifting silo (Hevy, Strong) and a sleep silo and a nutrition silo.
 
-Live public preview at <https://meron.gordongouger.com> (Overview tab; deeper tabs are gated by SSO).
+Live public preview at <https://athletic-analytics.gordongouger.com> (Overview tab; deeper tabs are gated by SSO).
 
 ## What it does
 
@@ -30,8 +30,8 @@ Memory tuning for small deployments lives in the [Dockerfile](Dockerfile) — gu
 
 ```sh
 # Clone + install
-git clone git@github.com:gogouger/meron.git
-cd meron
+git clone git@github.com:gogouger/athletic-analytics.git
+cd athletic-analytics
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e ".[web,api]" gunicorn
 

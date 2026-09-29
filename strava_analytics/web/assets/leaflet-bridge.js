@@ -14,18 +14,14 @@
 
     var _maps = {};
 
-    function _createBaseLayers() {
-        return {
-            "Positron": L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
-                maxZoom: 19, subdomains: "abcd",
-            }),
-            "Voyager": L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-                maxZoom: 19, subdomains: "abcd",
-            }),
-            "Dark Matter": L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png", {
-                maxZoom: 19, subdomains: "abcd",
-            }),
-        };
+    function _createBaseLayer() {
+        // CARTO's formerly-keyless raster endpoint now returns tiles stamped
+        // "API KEY REQUIRED". OpenFreeMap is explicitly keyless and its
+        // MapLibre style includes the required map-data attribution.
+        if (typeof L.maplibreGL !== "function") return null;
+        return L.maplibreGL({
+            style: "https://tiles.openfreemap.org/styles/positron",
+        });
     }
 
     function renderMap(el) {
@@ -67,12 +63,9 @@
             attributionControl: false,
         });
 
-        // Tile layers
-        var layers = _createBaseLayers();
-        layers["Positron"].addTo(map);
-        if (!isMini) {
-            L.control.layers(layers, null, {position: "topright", collapsed: true}).addTo(map);
-        }
+        // Keyless vector basemap. Route overlays remain native Leaflet layers.
+        var baseLayer = _createBaseLayer();
+        if (baseLayer) baseLayer.addTo(map);
 
         // Heat layer (if heatData provided and L.heatLayer available)
         if (cfg.heatData && cfg.heatData.length && typeof L.heatLayer === "function") {
@@ -142,9 +135,8 @@
             dragging: true, attributionControl: false,
         });
 
-        var layers = _createBaseLayers();
-        layers["Positron"].addTo(map);
-        L.control.layers(layers, null, {position: "topright", collapsed: true}).addTo(map);
+        var baseLayer = _createBaseLayer();
+        if (baseLayer) baseLayer.addTo(map);
 
         // Fetch precomputed route data and draw each as a semi-transparent polyline
         fetch("/assets/heatmap-data.json")

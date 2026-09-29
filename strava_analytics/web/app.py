@@ -28,8 +28,8 @@ from strava_analytics.web import data
 # (relative /assets paths work fine locally); set MERON_SITE_URL=https://... when
 # the site is publicly deployed so social scrapers can resolve the share image.
 SITE_URL = os.environ.get("MERON_SITE_URL", "").rstrip("/")
-OG_IMAGE = (f"{SITE_URL}/assets/meron-logo-dark-bg.png"
-            if SITE_URL else "/assets/meron-logo-dark-bg.png")
+OG_IMAGE = (f"{SITE_URL}/assets/meron-app-icon.png"
+            if SITE_URL else "/assets/meron-app-icon.png")
 
 
 MERON_INDEX_TEMPLATE = """<!DOCTYPE html>
@@ -37,7 +37,7 @@ MERON_INDEX_TEMPLATE = """<!DOCTYPE html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-        <meta name="description" content="MERON \u2014 personal fitness intelligence. Strength. Endurance. Elevation.">
+        <meta name="description" content="Athletic Analytics \u2014 personal fitness intelligence across strength and endurance.">
 
         <!-- Favicons -->
         <link rel="icon" type="image/svg+xml" href="/assets/meron-icon.svg">
@@ -51,9 +51,9 @@ MERON_INDEX_TEMPLATE = """<!DOCTYPE html>
         <!-- Standalone iOS / Android web-app -->
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta name="apple-mobile-web-app-title" content="MERON">
+        <meta name="apple-mobile-web-app-title" content="Athletic Analytics">
         <meta name="mobile-web-app-capable" content="yes">
-        <meta name="application-name" content="MERON">
+        <meta name="application-name" content="Athletic Analytics">
 
         <!-- Theme color (mobile browser chrome) -->
         <meta name="theme-color" content="#f8f9fc" media="(prefers-color-scheme: light)">
@@ -64,15 +64,15 @@ MERON_INDEX_TEMPLATE = """<!DOCTYPE html>
 
         <!-- OpenGraph -->
         <meta property="og:type" content="website">
-        <meta property="og:site_name" content="MERON">
-        <meta property="og:title" content="MERON">
+        <meta property="og:site_name" content="Athletic Analytics">
+        <meta property="og:title" content="Athletic Analytics">
         <meta property="og:description" content="Personal fitness intelligence. Strength. Endurance. Elevation.">
         <meta property="og:image" content="__OG_IMAGE__">
         __OG_URL__
 
         <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="MERON">
+        <meta name="twitter:title" content="Athletic Analytics">
         <meta name="twitter:description" content="Personal fitness intelligence. Strength. Endurance. Elevation.">
         <meta name="twitter:image" content="__OG_IMAGE__">
 
@@ -99,20 +99,29 @@ def create_app() -> dash.Dash:
         __name__,
         use_pages=True,
         pages_folder=str(Path(__file__).parent / "pages"),
+        # Vendor files are explicitly ordered in external_scripts below. Keep
+        # Dash from injecting a second copy alphabetically after our bridge.
+        assets_path_ignore=[r"^vendor$"],
         external_stylesheets=[
             dbc.themes.FLATLY,
             "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap",
             "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+            "https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css",
         ],
         external_scripts=[
-            "https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js",
-            "https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js",
-            "https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js",
-            "https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js",
+            # Charts are a core part of the product, so their renderer is served
+            # from this app rather than relying on a visitor's CDN/privacy rules.
+            # The files in assets/vendor retain the upstream license notices.
+            "/assets/vendor/chart.umd.js",
+            "/assets/vendor/chartjs-adapter-date-fns.bundle.min.js",
+            "/assets/vendor/hammer.min.js",
+            "/assets/vendor/chartjs-plugin-zoom.min.js",
             "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+            "https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js",
+            "https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js",
         ],
         suppress_callback_exceptions=True,
-        title="MERON",
+        title="Athletic Analytics",
         update_title=None,
     )
 
@@ -141,8 +150,9 @@ def create_app() -> dash.Dash:
             html.Div([
                 # Brand
                 dcc.Link([
-                    html.Img(src="/assets/meron-icon.svg", className="brand-icon", alt="MERON"),
-                    html.Span("MERON", className="brand-text"),
+                    html.Img(src="/assets/meron-icon.svg", className="brand-icon", alt=""),
+                    html.Span("GG /", className="family-mark"),
+                    html.Span("Athletic Analytics", className="brand-text"),
                 ], href="/", className="brand-link"),
                 # Mobile hamburger toggle
                 html.Button(
@@ -164,6 +174,8 @@ def create_app() -> dash.Dash:
                              className="meron-nav-link protected"),
                     dcc.Link("Plan", href="/plan",
                              className="meron-nav-link protected"),
+                    html.A("All projects", href="https://gordongouger.com/projects.html",
+                           className="meron-nav-link family-projects"),
                     # Gear is hidden by default; 00-auth-nav.js reveals it
                     # once auth state confirms a logged-in user.
                     dcc.Link("\u2699", href="/settings",
@@ -244,7 +256,10 @@ def create_app() -> dash.Dash:
                     "ok": True, "activities": 0, "runs": 0,
                     "total_miles": 0, "run_miles": 0,
                     "this_week_miles": 0, "this_month_miles": 0,
-                    "longest_run_mi": 0, "weekly_miles": [], "since": None,
+                    "this_week_lift_sessions": 0,
+                    "this_month_lift_sessions": 0,
+                    "longest_run_mi": 0, "weekly_miles": [],
+                    "weekly_training": [], "since": None,
                 })
             d = df.copy()
             d["date"] = pd.to_datetime(d["date"], errors="coerce")
@@ -258,6 +273,16 @@ def create_app() -> dash.Dash:
             now = pd.Timestamp.now()
             wk = (runs.set_index("date")["_mi"].resample("W").sum()
                   if not runs.empty else pd.Series(dtype=float))
+            lift_wk = (lifts.set_index("date").resample("W").size()
+                       if not lifts.empty else pd.Series(dtype=int))
+            recent_weeks = wk.index.union(lift_wk.index).sort_values()[-16:]
+            weekly_training = [
+                {
+                    "run_miles": round(float(wk.get(week, 0)), 1),
+                    "lift_sessions": int(lift_wk.get(week, 0)),
+                }
+                for week in recent_weeks
+            ]
             end_prs = data.get_end_prs() or {}
 
             def _pr(k):
@@ -283,10 +308,17 @@ def create_app() -> dash.Dash:
                 "this_month_miles": round(float(
                     runs[runs["date"] >= now - pd.Timedelta(days=30)]["_mi"].sum()
                 ), 1),
+                "this_week_lift_sessions": int(len(
+                    lifts[lifts["date"] >= now - pd.Timedelta(days=7)]
+                )),
+                "this_month_lift_sessions": int(len(
+                    lifts[lifts["date"] >= now - pd.Timedelta(days=30)]
+                )),
                 "longest_run_mi": (round(float(runs["_mi"].max()), 1)
                                    if not runs.empty else 0),
                 "weekly_miles": [round(float(x), 1)
                                  for x in wk.tail(16).tolist()],
+                "weekly_training": weekly_training,
                 "since": int(d["date"].min().year),
                 "lift_sessions": int(len(lifts)),
                 "lift_maxes": lift_maxes,
@@ -317,7 +349,7 @@ def create_app() -> dash.Dash:
                 "/settings": "Settings"
             };
             var page = titles[pathname] || "Overview";
-            document.title = "MERON \u2014 " + page;
+            document.title = "Athletic Analytics \u2014 " + page;
             return "";
         }
         """,
@@ -424,7 +456,7 @@ def main() -> None:
         format="%(asctime)s %(name)s %(levelname)s %(message)s",
         datefmt="%H:%M:%S",
     )
-    parser = argparse.ArgumentParser(description="MERON Web Dashboard")
+    parser = argparse.ArgumentParser(description="Athletic Analytics Web Dashboard")
     parser.add_argument(
         "export_dir",
         nargs="?",

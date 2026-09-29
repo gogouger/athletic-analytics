@@ -134,7 +134,7 @@ def _generate_ics(plan_rows: list[dict]) -> str:
     lines = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
-        "PRODID:-//MERON//Training Plan//EN",
+        "PRODID:-//Athletic Analytics//Training Plan//EN",
         "CALSCALE:GREGORIAN",
     ]
     for row in plan_rows:

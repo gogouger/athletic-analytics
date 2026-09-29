@@ -582,7 +582,7 @@ def layout(**_kwargs):
     return html.Div([
         # Hero
         hero_section(
-            label="MERON \u2014 OVERVIEW",
+            label="ATHLETIC ANALYTICS \u2014 OVERVIEW",
             headline="Your body is a machine. Here's the telemetry.",
             subtext=(
                 f"{total_activities} activities. {total_miles:,.0f} miles. "
@@ -596,7 +596,7 @@ def layout(**_kwargs):
                 dcc.Link("View Plan", href="/plan",
                          className="btn-ghost auth-only"),
                 # Anon prompt \u2014 visible only when not logged in.
-                html.A("Log in to view \u2192", href="/login",
+                html.A("Owner sign in \u2192", href="/login",
                        id="overview-cta-login",
                        className="btn-accent anon-only"),
             ],
@@ -610,18 +610,21 @@ def layout(**_kwargs):
                     f"{total_runs} runs at {avg_pace} avg pace. "
                     "Pace trends, heart rate analysis, and estimated race fitness.",
                     link_text="Learn more", link_href="/running",
+                    link_class="numbered-card__link auth-only",
                 ),
                 numbered_card(
                     2, "Strength",
                     f"{total_lifts} sessions logged. "
                     f"Bench {bench_1rm} / Squat {squat_1rm} / Deadlift {dl_1rm}.",
                     link_text="Learn more", link_href="/lifting",
+                    link_class="numbered-card__link auth-only",
                 ),
                 numbered_card(
                     3, "Racing",
                     f"VDOT {vdot:.1f}. Rolling 8-week build cycle: peak fitness "
                     "around the perpetual time-trial week.",
                     link_text="Learn more", link_href="/running",
+                    link_class="numbered-card__link auth-only",
                 ),
             ]),
         ]),
@@ -681,7 +684,7 @@ def layout(**_kwargs):
         html.Div(cta_section(
             "Ready to dig deeper?",
             "Sign in to see runs, lifts, plan, and race fitness.",
-            "Log in \u2192", "/login",
+            "Owner sign in \u2192", "/login",
         ), className="anon-only"),
 
         # Footer
